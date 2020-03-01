@@ -1,0 +1,4 @@
+set(CODENAME ${CMAKE_PROJECT_NAME})
+
+set(SOURCES "lib.cpp")
+add_library(${CODENAME} STATIC ${SOURCES})
