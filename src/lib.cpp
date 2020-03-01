@@ -1,5 +1,1 @@
-#include <exception>
-
-void crash_me() {
-    throw std::exception();
-}
+#include "uripp.h"

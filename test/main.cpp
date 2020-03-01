@@ -1,13 +1,20 @@
-#include <iostream>
+#include "main.h"
+#include "uripp.h"
 
-void crash_me();
+TEST(DummyCpp, testcase) {
+    ASSERT_FALSE(false);
+}
+
+TEST(ThreadPool, basic) {
+    using target = uripp::runtime::scheduler::ThreadPool;
+    target pool(3);
+    auto result = pool.post([] { return 56*3; });
+    auto result2 = pool.post([] () {});
+    auto result3 = pool.post([] (auto&& input) { return input*56; }, 3);
+    ASSERT_EQ(result.get(), result3.get());
+}
 
 int main(int argc, char** argv) {
-    using std::cout;
-    using std::endl;
-    cout << "we want to crash" << endl;
-    crash_me();
-    cout << "unreachable" << endl;
-    (void) argc;
-    (void) argv;
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
