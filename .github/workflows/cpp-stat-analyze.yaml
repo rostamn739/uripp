@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: C++ code linter (clang-tidy and cppcheck)
-        uses: smay1613/cpp-linter-action@0.0.2
+        uses: rostamn739/cpp-linter-action@master
     env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
