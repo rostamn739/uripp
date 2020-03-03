@@ -1,5 +1,6 @@
 #include "main.h"
 #include "uripp.h"
+#include "futures.h"
 
 TEST(DummyCpp, testcase) {
     ASSERT_FALSE(false);
