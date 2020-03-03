@@ -8,6 +8,43 @@
 #include <condition_variable>
 #include <type_traits>
 
+namespace uripp {
+
+template <typename T>
+class Result {
+public:
+    using error_type = std::exception;
+private:
+    using storage_type = struct { // NOLINT(cppcoreguidelines-pro-type-member-init,hicpp-member-init)
+        bool is_error;
+        union {
+            T value;
+            error_type exception;
+        } inner;
+    };
+    storage_type storage_;
+    static auto make_value(const T &value) {
+        return storage_type{false, {value}};
+    }
+    static auto make_error(const error_type &exc) {
+        return storage_type{true, {exc}};
+    }
+public:
+    Result(const T &value) : storage_(make_value(value)) { }; // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
+    Result(const error_type &exc) : storage_(make_error(exc)) { }; // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
+    bool is_error() { return storage_.is_error; }
+    T &value() { return storage_.inner.value; }
+    error_type &error() { return storage_.inner.exception; }
+    //Probably doesn't need these:
+    operator T() { // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
+        return storage_.inner.value;
+    }
+    operator error_type() { // NOLINT(google-explicit-constructor,hicpp-explicit-conversions)
+        return storage_.inner.exception;
+    }
+};
+}
+
 namespace uripp::runtime::scheduler {
 namespace detail {
 
