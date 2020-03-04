@@ -15,3 +15,6 @@ uripp.files
 uripp.includes
 **.autosave
 build/
+.idea/
+cmake-build-debug/
+
